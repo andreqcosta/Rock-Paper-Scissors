@@ -5,19 +5,33 @@ function getComputerChoice() {
 }
 
 function playRound(playerSelection, computerSelection) {
-
+    
     const p = playerSelection.toLowerCase();
     const c = computerSelection.toLowerCase();
-    
+    console.log(p);
+    console.log(c);
     if (p === c) {
+	alert("draw")
 	return "draw";
     } else if (p === "rock" && c == "scissor" || p === "paper" && c === "rock" || p === "scissor" && c === "paper"){
 	return "win";
+	alert("win")
     }else if (p === "rock" && c == "paper" || p === "paper" && c === "scissor" || p === "scissor" && c === "rock"){
 	return "lose";
+	alert("lose")
     }	
     
 }
+
+
+const playerSelection = document.querySelectorAll("button");
+playerSelection.forEach(selection => selection.addEventListener("click", () =>{
+    playRound(selection.classList.value, getComputerChoice());
+} ));
+const rock = document.querySelector(".rock");
+rock.addEventListener("click", () => {
+    alert("rock")
+});
 
 function game(){
     let games = 0;
