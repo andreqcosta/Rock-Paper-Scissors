@@ -11,59 +11,65 @@ function playRound(playerSelection, computerSelection) {
     console.log(p);
     console.log(c);
     if (p === c) {
-	alert("draw")
 	return "draw";
     } else if (p === "rock" && c == "scissor" || p === "paper" && c === "rock" || p === "scissor" && c === "paper"){
 	return "win";
-	alert("win")
     }else if (p === "rock" && c == "paper" || p === "paper" && c === "scissor" || p === "scissor" && c === "rock"){
 	return "lose";
-	alert("lose")
     }	
     
 }
 
-
-const playerSelection = document.querySelectorAll("button");
-playerSelection.forEach(selection => selection.addEventListener("click", () =>{
-    playRound(selection.classList.value, getComputerChoice());
-} ));
-const rock = document.querySelector(".rock");
-rock.addEventListener("click", () => {
-    alert("rock")
-});
-
-function game(){
-    let games = 0;
-    let player = 0;
-    let computer = 0;
+function game(e){
+    selection = this.classList.value;
+    let computerSelection = getComputerChoice();
+    computerSelection = computerSelection.toLowerCase();
+    let round = playRound(selection, computerSelection);
     
-    for(let i = 0; i < 5; i++){
-	let playerSelection = prompt("Rock, paper or scissor?");
-	let computerSelection = getComputerChoice();
-	let round = playRound(playerSelection, computerSelection);
-	
-	if(round === "draw"){
-	    console.log(`Draw! ${playerSelection} is equal to ${computerSelection}`);
-	}else if(round === "win"){
-	    player++;
-	    console.log(`You win! ${playerSelection} beats ${computerSelection}`);
-	}else if(round === "lose"){
-	    computer++;
-	    console.log(`You lose! ${computerSelection} beats ${playerSelection}`);
-	}	
-	games++;
-    }
-
-    if(player > computer){
-	console.log(`You win the game for ${player} to ${computer}`);
-    }else if(player < computer){
-	console.log(`You lose the game for ${computer} to ${player}`);
-    }else if(player === computer){
-	console.log(`The game is a draw for ${player} to ${computer}`);
+    if(round === "draw"){
+	roundResult.textContent = `Draw! ${selection} is equal to ${computerSelection}`;
+    }else if(round === "win"){
+	player++;
+	roundResult.textContent = `You win! ${selection} beats ${computerSelection}`;
+    }else if(round === "lose"){
+	computer++;
+	roundResult.textContent = `You lose! ${computerSelection} beats ${selection}`;
+    }	
+    games++;
+    if(games === 5){
+	if(player > computer){
+	    finalResult.textContent = `You win the game for ${player} to ${computer}`;
+	}else if(player < computer){
+	    finalResult.textContent = `You lose the game for ${computer} to ${player}`;
+	}else if(player === computer){
+	    finalResult.textContent = `The game is a draw for ${player} to ${computer}`;
+	}
+	games = 0;
+	player = 0;
+	computer =0;
+    }else{
+	finalResult.textContent = '';
     }
 
 }
+
+
+const playerSelection = document.querySelectorAll("button");
+playerSelection.forEach(selection => selection.addEventListener("click", game));
+
+const results = document.querySelector(".results");
+
+const roundResult = document.createElement("div");
+roundResult.classList.add("round");
+results.appendChild(roundResult);
+
+const finalResult = document.createElement("div");
+finalResult.classList.add("final");
+results.appendChild(finalResult);
+
+let games = 0;
+let player = 0;
+let computer = 0;
 
 
 
